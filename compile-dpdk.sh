@@ -6,4 +6,4 @@ cd $HOME
 git clone git://dpdk.org/dpdk
 cd dpdk
 git checkout v2.1.0
-make install T=${RTE_TARGET}
+make install T=${RTE_TARGET} -j2
