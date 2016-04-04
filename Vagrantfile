@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
             #vb.name = "generator"
             vb.memory = "2048"
             vb.cpus = 2
-            vb.gui = true
+            vb.gui = false
             vb.linked_clone = true
             vb.customize ["modifyvm", :id, "--nic3", "intnet"]
             vb.customize ["modifyvm", :id, "--nic4", "intnet"]
@@ -38,11 +38,13 @@ Vagrant.configure(2) do |config|
     config.vm.define "receiver" do |receiver|
         receiver.vm.box = "ubuntu/trusty64"
         receiver.vm.network "private_network", ip: "10.0.0.13"
+        receiver.vm.network "private_network", ip: "10.0.0.14"
+        receiver.vm.network "private_network", ip: "10.0.0.15"
         config.vm.provider "virtualbox" do |vb|
             #vb.name = "receiver"
             vb.memory = "1024"
             vb.cpus = 1
-            vb.gui = true
+            vb.gui = false
             vb.linked_clone = true
             vb.customize ["modifyvm", :id, "--nic3", "intnet"]
             vb.customize ["modifyvm", :id, "--nic4", "intnet"]
