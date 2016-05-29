@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/vagrant-provision-reboot-plugin'
 Vagrant.configure(2) do |config|
     config.vm.define "generator" do |generator|
         generator.vm.box = "ubuntu/trusty64"
-        generator.vm.network "private_network", ip: "10.0.0.12"
+        generator.vm.network "private_network", ip: "10.0.1.12"
         config.vm.provider "virtualbox" do |vb|
             #vb.name = "generator"
             vb.memory = "2048"
@@ -26,20 +26,17 @@ Vagrant.configure(2) do |config|
             vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.1", "1"]
             vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.2", "1"]
         end
-        generator.vm.provision :shell, inline: "echo generator > /etc/hostname",:privileged => true 
-        generator.vm.provision :shell, path: "install-generator.sh", :privileged => false
-        generator.vm.provision :unix_reboot
-        generator.vm.provision :shell, path: "compile-dpdk.sh", :privileged => false
-        generator.vm.provision :shell, path: "compile-pktgen.sh", :privileged => false
-        generator.vm.provision :shell, path: "configure-dpdk.sh", :privileged => false, run: "always"
+        generator.vm.provision :shell, inline: "echo generator > /etc/hostname", privileged: true 
+        generator.vm.provision :shell, path: "provision.sh", args: "setup", privileged: false
+        generator.vm.provision :shell, path: "provision.sh", args: "always", privileged: false, run: "always"
     end
 
 
     config.vm.define "receiver" do |receiver|
         receiver.vm.box = "ubuntu/trusty64"
-        receiver.vm.network "private_network", ip: "10.0.0.13"
-        receiver.vm.network "private_network", ip: "10.0.0.14"
-        receiver.vm.network "private_network", ip: "10.0.0.15"
+        receiver.vm.network "private_network", ip: "10.0.1.22"
+        receiver.vm.network "private_network", ip: "10.0.1.23"
+        receiver.vm.network "private_network", ip: "10.0.1.24"
         config.vm.provider "virtualbox" do |vb|
             #vb.name = "receiver"
             vb.memory = "1024"
@@ -59,7 +56,9 @@ Vagrant.configure(2) do |config|
             vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.1", "1"]
             vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.2", "1"]
         end
-        receiver.vm.provision :shell, inline: "echo receiver > /etc/hostname",:privileged => true 
+        receiver.vm.provision :shell, inline: "echo receiver > /etc/hostname", privileged: true 
+        receiver.vm.provision :shell, path: "provision.sh", args: "setup", privileged: false
+        receiver.vm.provision :shell, path: "provision.sh", args: "always", privileged: false, run: "always"
     end
 
 end

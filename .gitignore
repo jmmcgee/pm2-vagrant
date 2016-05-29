@@ -1,2 +1,6 @@
 .vagrant
 *.sw[p-z]
+
+authorized_keys
+mpibenchmark-0.2*
+pm2-2015-02-11*
