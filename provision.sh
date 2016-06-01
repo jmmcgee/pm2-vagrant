@@ -1,6 +1,11 @@
 #!/bin/bash
 
 ### Misc. Configurations
+echo "STARTING provision.sh" $@
+if [ ! -f /vagrant/scripts/bashrc ]; then
+	echo "ERROR bashrc not found"
+	exit -1
+fi
 
 function install_dependencies
 {
@@ -127,6 +132,7 @@ function sync_pm2
 
 function compile_pm2
 {
+	. ~/.bashrc
 	. /vagrant/scripts/bashrc
 	set_pm2
 	#sync_pm2
@@ -146,7 +152,7 @@ if [[ "$1" = "setup" ]]; then
 	#compile_dpdk
 	#compile_pktgen
 	unpack_pm2
-	compile_pm2
+	#compile_pm2
 elif [[ "$1" = "always" ]]; then
 	echo ALWAYS
 	import_pubkey

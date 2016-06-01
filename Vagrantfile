@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
 			vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.1", "1"]
 			vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.2", "1"]
 		end
-		generator.vm.provision :shell, inline: "echo generator > /etc/hostname", privileged: true 
+		generator.vm.provision :shell, inline: "echo generator | tee /etc/hostname", privileged: true
 		generator.vm.provision :shell, path: "provision.sh", args: "setup", privileged: false
 		generator.vm.provision :shell, path: "provision.sh", args: "always", privileged: false, run: "always"
 	end
@@ -56,7 +56,7 @@ Vagrant.configure(2) do |config|
 			vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.1", "1"]
 			vb.customize ["setextradata", :id, "VBoxInternal/CPUM/SSE4.2", "1"]
 		end
-		receiver.vm.provision :shell, inline: "echo receiver > /etc/hostname", privileged: true 
+		receiver.vm.provision :shell, inline: "echo receiver | tee /etc/hostname", privileged: true
 		receiver.vm.provision :shell, path: "provision.sh", args: "setup", privileged: false
 		receiver.vm.provision :shell, path: "provision.sh", args: "always", privileged: false, run: "always"
 	end

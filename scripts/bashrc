@@ -116,7 +116,7 @@ function cathuge
 export PM2=$HOME/pm2
 export PM2_ROOT=$PM2/pm2-2015-02-11
 export PM2_BENCH=$PM2/mpibenchmark-0.2
-#export NMAD_DRIVER=
+export NMAD_DRIVER=tcp
 #export LD_BIND_NOW=y
 export PADICO_CORE=/opt/pm2
 export PM2_ROOT=$HOME/pm2/pm2-2015-02-11
@@ -139,6 +139,7 @@ function make_pm2
 	fi
 	./pm2-build-packages ${conf} --prefix=/opt/pm2
 }
+
 function set_pm2
 {
 	unset_pm2
@@ -185,3 +186,4 @@ function run_bench # host1 host2
 # padico-launch -net ib -hosts 10.1.1.1,10.2.2.2 -n 2 ./mpi_bench_base
 
 set_pm2
+echo "DONE WITH scripts/bashrc. WOOOT"
